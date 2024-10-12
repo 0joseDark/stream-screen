@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Stream do Ecrã</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+        }
+        #stream-container {
+            max-width: 90vw;
+            max-height: 80vh;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+        #stream-image {
+            width: 100%;
+            height: auto;
+        }
+        #control-panel {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 300px;
+        }
+        #frequency-slider {
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div id="stream-container">
+        <img id="stream-image" src="{{ url_for('video_feed') }}" alt="Stream do Ecrã">
+    </div>
+    <div id="control-panel">
+        <label for="frequency-slider">Taxa de atualização: <span id="frequency-value">1</span> FPS</label>
+        <input type="range" id="frequency-slider" min="0" max="100" value="1">
+    </div>
+
+    <script>
+        const slider = document.getElementById('frequency-slider');
+        const frequencyValue = document.getElementById('frequency-value');
+
+        slider.addEventListener('input', function() {
+            frequencyValue.textContent = this.value;
+        });
+
+        slider.addEventListener('change', function() {
+            fetch('/update_frequency', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: 'frequency=' + this.value
+            })
+            .then(response => {
+                if (!response.ok) {
+                    console.error('Erro ao atualizar a frequência');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

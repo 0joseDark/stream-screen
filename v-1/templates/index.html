@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Stream do Ecrã</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        #stream-container {
+            max-width: 90vw;
+            max-height: 90vh;
+            overflow: hidden;
+        }
+        #stream-image {
+            width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <div id="stream-container">
+        <img id="stream-image" src="{{ url_for('video_feed') }}" alt="Stream do Ecrã">
+    </div>
+</body>
+</html>
